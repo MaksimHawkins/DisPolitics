@@ -4,7 +4,6 @@ public class City {
 
     private Integer id;
 
-
     private String name;
     private Integer economyAmplifier;
     private Integer defendAmplifier;
