@@ -1,14 +1,9 @@
 package com.dispolitics.server.models;
 
-import org.hibernate.annotations.Entity;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 public class City {
 
     private Integer id;
+
 
     private String name;
     private Integer economyAmplifier;
