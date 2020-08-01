@@ -6,13 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
 public class City {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
 
     private String name;
     private Integer economyAmplifier;
