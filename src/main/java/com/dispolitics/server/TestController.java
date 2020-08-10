@@ -4,12 +4,18 @@ package com.dispolitics.server;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Input;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.Router;
+import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.RouteRegistry;
 
 @Push
 @Route("test")
@@ -25,6 +31,19 @@ public class TestController extends VerticalLayout {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
+
+        Button testHref = new Button("Авторизоваться с помощью Discord", new Image("discord.png", ""));
+        Icon globe = VaadinIcon.GLOBE_WIRE.create();
+        globe.setColor("white");
+        testHref.getStyle().set("background", "#7289da");
+        testHref.getStyle().set("color", "white");
+
+        testHref.addClickListener(e -> {
+            testHref.getUI().ifPresent(ui -> {
+
+            });
+        });
+
 
         HorizontalLayout cities = new HorizontalLayout();
 
@@ -48,6 +67,8 @@ public class TestController extends VerticalLayout {
         add(button);
         add(cities);
         add(text);
+
+        add(testHref);
     }
 
     @Override
