@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### webpack ###
+webpack.config.js
+webpack.generated.js
