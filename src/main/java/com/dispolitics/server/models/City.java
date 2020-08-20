@@ -5,8 +5,20 @@ public class City {
     private Integer id;
 
     private String name;
+
+    private Integer country;
+
     private Integer economyAmplifier;
     private Integer defendAmplifier;
+
+    public City() {
+    }
+
+    public City(String name, Integer economyAmplifier, Integer defendAmplifier) {
+        this.name = name;
+        this.economyAmplifier = economyAmplifier;
+        this.defendAmplifier = defendAmplifier;
+    }
 
     public Integer getId() {
         return id;

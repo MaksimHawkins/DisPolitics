@@ -35,3 +35,6 @@ build/
 ### webpack ###
 webpack.config.js
 webpack.generated.js
+
+### Spring ###
+/src/main/resources/application.properties

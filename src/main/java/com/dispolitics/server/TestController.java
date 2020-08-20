@@ -1,8 +1,13 @@
 package com.dispolitics.server;
 
 
+import com.dispolitics.server.models.City;
+import com.dispolitics.server.models.CityRepository;
+import com.dispolitics.server.models.CityRepositoryImpl;
+import com.jagrosh.jdautilities.oauth2.Scope;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Input;
@@ -16,10 +21,16 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.Router;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.RouteRegistry;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import org.apache.catalina.Server;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Push
 @Route("test")
 public class TestController extends VerticalLayout {
+
+    @Autowired
+    CityRepositoryImpl cityRepository;
 
     int i = 0;
 
@@ -28,22 +39,10 @@ public class TestController extends VerticalLayout {
     public UI ui;
 
     public TestController() {
+
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-
-        Button testHref = new Button("Авторизоваться с помощью Discord", new Image("discord.png", ""));
-        Icon globe = VaadinIcon.GLOBE_WIRE.create();
-        globe.setColor("white");
-        testHref.getStyle().set("background", "#7289da");
-        testHref.getStyle().set("color", "white");
-
-        testHref.addClickListener(e -> {
-            testHref.getUI().ifPresent(ui -> {
-
-            });
-        });
-
 
         HorizontalLayout cities = new HorizontalLayout();
 
@@ -59,59 +58,40 @@ public class TestController extends VerticalLayout {
 
                 cities.add(layout);
 
+
                 Notification.show("Добавлен город");
             }
         });
+
+        for (City city : cityRepository.getAllCities()) {
+            Text text = new Text(input.getValue());
+            VerticalLayout layout = new VerticalLayout(text);
+            layout.setMargin(true);
+
+            cities.add(city.getName());
+        }
 
         add(input);
         add(button);
         add(cities);
         add(text);
-
-        add(testHref);
     }
 
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         //new TestThread(attachEvent.getUI(), this).start();
         this.ui = attachEvent.getUI();
-        ServerApplication.testControllers.add(this);
+        //ServerApplication.testControllers.add(this);
     }
 
     @Override
     protected void onDetach(DetachEvent detachEvent) {
-        ServerApplication.testControllers.remove(this);
+        //ServerApplication.testControllers.remove(this);
     }
 
     public void updateText(String text) {
         this.ui.access(() -> {
             this.text.setText(text);
         });
-    }
-
-    private class TestThread extends Thread {
-        private UI ui;
-        private TestController view;
-
-        private int j;
-
-        public TestThread(UI ui, TestController view) {
-            this.ui = ui;
-            this.view = view;
-        }
-
-        @Override
-        public void run() {
-            try {
-                for (j = 0; j < 10; j++) {
-                    Thread.sleep(1000);
-                    ui.access(() -> {
-                        view.text.setText("Так-то " + j);
-                    });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
