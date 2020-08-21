@@ -10,8 +10,11 @@ import java.util.List;
 @Repository
 public class CityRepositoryImpl implements CityRepository {
 
-    @Autowired
-    private Sql2o sql2o;
+    private final Sql2o sql2o;
+
+    public CityRepositoryImpl(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
 
     @Override
     public List<City> getAllCities() {
@@ -24,4 +27,18 @@ public class CityRepositoryImpl implements CityRepository {
             return null;
         }
     }
+
+    @Override
+    public void addCity(String name, int country) {
+        String sql = "INSERT INTO city (name, country) VALUES (:name, :country);";
+
+        int i;
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("name", name)
+                    .addParameter("country", country).executeUpdate();
+        }
+    }
+
+
 }

@@ -24,30 +24,32 @@ import com.vaadin.flow.server.RouteRegistry;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.apache.catalina.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @Push
 @Route("test")
 public class TestController extends VerticalLayout {
 
-    @Autowired
-    CityRepositoryImpl cityRepository;
-
     int i = 0;
 
     public Text text = new Text("Тут будет обнова...");
 
+    private Input input;
+    private HorizontalLayout cities;
+
     public UI ui;
 
-    public TestController() {
+    public TestController(
+            @Autowired CityRepository cityRepository) {
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        HorizontalLayout cities = new HorizontalLayout();
+        cities = new HorizontalLayout();
 
         add(new H2("Введи название города,\nчтобы добавить его в список"));
-        Input input = new Input();
+        input = new Input();
         Button button = new Button("Добавить город");
         button.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
@@ -57,6 +59,7 @@ public class TestController extends VerticalLayout {
                 layout.setMargin(true);
 
                 cities.add(layout);
+                cityRepository.addCity(input.getValue(), 1);
 
 
                 Notification.show("Добавлен город");
@@ -82,6 +85,7 @@ public class TestController extends VerticalLayout {
         //new TestThread(attachEvent.getUI(), this).start();
         this.ui = attachEvent.getUI();
         //ServerApplication.testControllers.add(this);
+
     }
 
     @Override

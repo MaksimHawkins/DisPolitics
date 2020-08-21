@@ -7,4 +7,6 @@ public interface CityRepository {
 
     public List<City> getAllCities();
 
+    public void addCity(String name, int country);
+
 }
